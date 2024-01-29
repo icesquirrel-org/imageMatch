@@ -1,4 +1,5 @@
 package com.example.demo.sample.web;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -10,6 +11,7 @@ import java.util.Map;
 
 
 import org.springframework.stereotype.Service;
+import org.apache.commons.io.IOUtils;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
@@ -32,25 +34,46 @@ public class SampleServiceImpl{
 //        Imgproc.cvtColor( srcTest2, hsvTest2, Imgproc.COLOR_BGR2HSV );
 		return rs;
 	}
-	public List<Map<String, Object>> getCompareResult(Map<String, Object> params) throws MalformedURLException, IOException {
+	static{ System.loadLibrary(Core.NATIVE_LIBRARY_NAME); }
+	public List<Map<String, Object>> getCompareResult(Map<String, Object> params) {
+		
 		List<Map<String, Object>>  rs = new ArrayList<Map<String, Object>> ();
 
-		String sourceUrl = (String) params.get("source");
-		List<String> targetList = (List<String>) params.get("targetList");
 		
-		
-		InputStream source = new URL(sourceUrl).openStream();
-		byte[] bytesSource = source.readAllBytes();
-		
-		Mat matSource = Imgcodecs.imdecode(new MatOfByte(bytesSource),Imgcodecs.IMREAD_UNCHANGED);
-		
-		List<Mat> targetMatList  = new ArrayList<Mat> ();
-		for(int i = 0 ; i < targetList.size() ; i++) {
-			String targetUrl = targetList.get(i);
-			InputStream target = new URL(targetUrl).openStream();
-			byte[] bytesTarget = target.readAllBytes();
-			Mat mattarget = Imgcodecs.imdecode(new MatOfByte(bytesTarget),Imgcodecs.IMREAD_UNCHANGED);
-			targetMatList.add(mattarget);
+		try {
+			String sourceUrl = (String) params.get("source");
+			List<String> targetList = (List<String>) params.get("targetList");
+			
+			InputStream source;
+
+			source = new URL(sourceUrl).openStream();
+			byte[] bytesSource = source.readAllBytes();
+//			
+//			int nRead;
+//			byte[] data = new byte[16 * 1024];
+//			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+//			while ((nRead = source.read(data, 0, data.length)) != -1) {
+//			    buffer.write(data, 0, nRead);
+//			}
+//			byte[] bytes = buffer.toByteArray();
+//			Mat mat = Imgcodecs.imdecode( new Mat(bytes),Imgcodecs.IMREAD_UNCHANGED);
+////			
+//			Mat srcMap =  new MatOfByte(bytesSource);
+			 MatOfByte srcMap = new MatOfByte();
+			 srcMap.put(0,0,bytesSource);
+			 Mat matSource = Imgcodecs.imdecode(srcMap,Imgcodecs.IMREAD_UNCHANGED);
+			
+			List<Mat> targetMatList  = new ArrayList<Mat> ();
+			for(int i = 0 ; i < targetList.size() ; i++) {
+				String targetUrl = targetList.get(i);
+				InputStream target = new URL(targetUrl).openStream();
+				byte[] bytesTarget = target.readAllBytes();
+				Mat mattarget = Imgcodecs.imdecode(new MatOfByte(bytesTarget),Imgcodecs.IMREAD_UNCHANGED);
+				targetMatList.add(mattarget);
+			}
+			
+		} catch (MalformedURLException e) {
+		} catch (IOException e) {
 		}
 		
 		
@@ -58,10 +81,30 @@ public class SampleServiceImpl{
 	}
 	public static void main(String[] args) {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		SampleServiceImpl.run();
+		SampleServiceImpl.run2();
 // 		System. 
 	}
 	public static void run2() {
+		 
+		
+		InputStream source;
+
+		try {
+			source = new URL("http://ecoletree.com/resources/ecoletree/img/home/bgMain7.png").openStream();
+		    byte[] imgData = IOUtils.toByteArray(source);
+		    Mat matSource = Imgcodecs.imdecode(new MatOfByte(imgData), Imgcodecs.IMREAD_UNCHANGED);
+		    
+//			byte[] bytesSource = source.readAllBytes();
+//			MatOfByte srcMap = new MatOfByte();
+//			srcMap.put(0,0,bytesSource);
+//			Mat matSource = Imgcodecs.imdecode(srcMap,Imgcodecs.IMREAD_UNCHANGED);
+			 
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		 
         Mat srcBase = Imgcodecs.imread("/Users/icesquirrel/workspace/ecoletree/imageMatch/imageMatch/src/main/resources/static/img/Samsung_Orig_Wordmark_BLUE_RGB.png");
         Mat srcTest1 = Imgcodecs.imread("/Users/icesquirrel/workspace/ecoletree/imageMatch/imageMatch/src/main/resources/static/img/Samsung_Orig_Wordmark_WHITE_RGB.png");

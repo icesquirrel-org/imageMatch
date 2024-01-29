@@ -23,7 +23,9 @@ public class SampleController {
 	SampleServiceImpl service;
 	
 	@PostMapping(value = "", consumes = {APPLICATION_JSON_VALUE, APPLICATION_JSON_UTF8_VALUE})
-    public Map<String, Object> check(@RequestBody final Map options)  {
-        return Map.of("metadata", service.getMetaDataList(options));
+    public Map<String, Object> compare(@RequestBody final Map options)  {
+        return Map.of("result", service.getCompareResult(options));
     }
+	
+	
 }
