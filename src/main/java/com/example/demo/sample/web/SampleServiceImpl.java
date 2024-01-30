@@ -27,7 +27,7 @@ import org.opencv.imgproc.Imgproc;
 @Service
 public class SampleServiceImpl{ 
 	
-	static{ OpenCV.loadShared(); }
+	 static{ OpenCV.loadLocally(); }
 	public List<Map<String, Object>> getCompareResult(Map<String, Object> params) {
 		
 		List<Map<String, Object>>  rs = new ArrayList<Map<String, Object>> ();
@@ -94,7 +94,7 @@ public class SampleServiceImpl{
 	}
 	public static void run2() {
 		//opencv.loadshared();
-		OpenCV.loadShared();
+		 OpenCV.loadLocally();
 //		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		InputStream source;
 		
@@ -182,6 +182,7 @@ public class SampleServiceImpl{
     }
 	
 	public static void run() {
+		 OpenCV.loadShared();
         Mat srcBase = Imgcodecs.imread("/Users/icesquirrel/workspace/ecoletree/imageMatch/imageMatch/src/main/resources/static/img/Samsung_Orig_Wordmark_BLUE_RGB.png");
         Mat srcTest1 = Imgcodecs.imread("/Users/icesquirrel/workspace/ecoletree/imageMatch/imageMatch/src/main/resources/static/img/Samsung_Orig_Wordmark_WHITE_RGB.png");
         Mat srcTest2 = Imgcodecs.imread("/Users/icesquirrel/workspace/ecoletree/imageMatch/imageMatch/src/main/resources/static/img/samlogo1small.png");
