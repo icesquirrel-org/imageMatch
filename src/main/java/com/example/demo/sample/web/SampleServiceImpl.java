@@ -95,10 +95,11 @@ public class SampleServiceImpl{
 	public static void run2() {
 		//opencv.loadshared();
 		OpenCV.loadShared();
+//		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		InputStream source;
 		
 		try {
-			source = new URL("http://localhost:8080/img/Samsung_Orig_Wordmark_BLUE_RGB.png").openStream();
+			source = new URL("http://localhost:8080/img/Samsung_Orig_Wordmark_BLUE_RGB.jpg").openStream();
 		    byte[] imgData = IOUtils.toByteArray(source);
 		    Mat srcBase = Imgcodecs.imdecode(new MatOfByte(imgData), Imgcodecs.IMREAD_UNCHANGED);
 		    
@@ -123,7 +124,7 @@ public class SampleServiceImpl{
 	        Imgproc.cvtColor( srcTest1, hsvTest1, Imgproc.COLOR_BGR2HSV );
 	        Imgproc.cvtColor( srcTest2, hsvTest2, Imgproc.COLOR_BGR2HSV );
 	        
-	        int hBins = 50, sBins = 60;
+	        int hBins = 180, sBins = 256;
 	        int[] histSize = { hBins, sBins };
 	        // hue varies from 0 to 179, saturation from 0 to 255
 	        float[] ranges = { 0, 180, 0, 256 };

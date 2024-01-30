@@ -26,6 +26,10 @@ public class SampleController {
     public Map<String, Object> compare(@RequestBody final Map options)  {
         return Map.of("result", service.getCompareResult(options));
     }
+	@PostMapping(value = "/test", consumes = {APPLICATION_JSON_VALUE, APPLICATION_JSON_UTF8_VALUE})
+    public Map<String, Object> compared(@RequestBody final Map options)  {
+        return Map.of("result", "");
+    }
 	
 	
 }
