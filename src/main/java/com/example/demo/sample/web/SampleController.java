@@ -31,5 +31,4 @@ public class SampleController {
         return Map.of("result", "");
     }
 	
-	
 }

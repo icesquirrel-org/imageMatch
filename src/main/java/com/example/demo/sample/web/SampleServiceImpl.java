@@ -35,7 +35,6 @@ public class SampleServiceImpl{
         // hue varies from 0 to 179, saturation from 0 to 255
         int hBins = 180, sBins = 256;
         int[] histSize = { hBins, sBins };
-        // hue varies from 0 to 179, saturation from 0 to 255
         float[] ranges = { 0, 180, 0, 256 };
         // Use the 0-th and 1-st channels
         // H,S 채널에 대한 히스토그램 
@@ -93,9 +92,10 @@ public class SampleServiceImpl{
 // 		System. 
 	}
 	public static void run2() {
-		//opencv.loadshared();
-		 OpenCV.loadLocally();
+//		OpenCV.loadShared();
 //		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		 OpenCV.loadLocally();
+		
 		InputStream source;
 		
 		try {
