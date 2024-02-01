@@ -59,6 +59,7 @@ public class SampleServiceImpl{
 				rsMap.put("source", sourceUrl);
 				String targetUrl = targetList.get(i);
 				rsMap.put("target", targetUrl);
+				rsMap.put("targetIndex", i);
 				
 				InputStream target = new URL(targetUrl).openStream();
 			    byte[] targetimgData = IOUtils.toByteArray(target);
